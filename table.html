@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時間割表</title>
+    <style>
+        /* 全体レイアウトの設定 */
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f7f6;
+            color: #333333;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+            letter-spacing: 1px;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        /* レスポンシブ用のコンテナ（画面幅が狭い時に横スクロール可能にする） */
+        .timetable-container {
+            width: 100%;
+            max-width: 950px;
+            overflow-x: auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        /* テーブルの基本スタイル */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 750px; /* スマートフォンでも潰れないように最小幅を設定 */
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* ヘッダー・セルの共通設定 */
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #eeeeee;
+            border-right: 1px solid #eeeeee;
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ヘッダー（曜日・時間）のスタイル */
+        th {
+            background-color: #34495e;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        /* 左側の列（時間表示）のスタイル */
+        td.time-col {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            font-size: 12px;
+            width: 110px;
+            font-weight: bold;
+        }
+
+        /* 左側の列（校時表示）のスタイル */
+        td.period-col {
+            background-color: #f1f2f6;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 16px;
+            width: 60px;
+        }
+
+        /* 授業科目のスタイル */
+        td.subject {
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            cursor: pointer;
+            width: 140px;
+        }
+
+        /* 指定科目ごとのカラーバリエーション */
+        .math { background-color: #dfe6e9; color: #2d3436; }       /* 数学 */
+        .eng-read { background-color: #74b9ff; color: #1e3799; }   /* 英語理解 */
+        .eng-expr { background-color: #a29bfe; color: #482ff7; }   /* 英語表現 */
+        .info-lit { background-color: #55efc4; color: #009432; }   /* 情報リテラシ */
+        .info-prac { background-color: #81ecec; color: #008080; }  /* 情報リテラシ演習 */
+        .jp-expr { background-color: #ffeaa7; color: #b33939; }    /* 日本語表現 */
+        .data-sci { background-color: #ff7675; color: #822626; }   /* 数理データサイエンス */
+
+        /* ホバーエフェクト（行単位） */
+        tbody tr:hover {
+            background-color: #f9fbfd;
+        }
+
+        /* ホバーエフェクト（各セル単体） */
+        td.subject:hover {
+            filter: brightness(0.93);
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* 補足情報のスタイル */
+        .memo {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>大学の時間割表</h1>
+
+    <div class="timetable-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>校時</th>
+                    <th>時間</th>
+                    <th>月</th>
+                    <th>火</th>
+                    <th>水</th>
+                    <th>木</th>
+                    <th>金</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 1時間目 -->
+                <tr>
+                    <td class="period-col">1</td>
+                    <td class="time-col">09:00 - 10:00</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                </tr>
+
+                <!-- 2時間目 -->
+                <tr>
+                    <td class="period-col">2</td>
+                    <td class="time-col">10:00 - 11:00</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject eng-expr">英語表現</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                </tr>
+
+                <!-- 3時間目 -->
+                <tr>
+                    <td class="period-col">3</td>
+                    <td class="time-col">11:00 - 12:00</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                </tr>
+
+                <!-- 4時間目 -->
+                <tr>
+                    <td class="period-col">4</td>
+                    <td class="time-col">12:00 - 13:00</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                    <td class="subject eng-expr">英語表現</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                </tr>
+
+                <!-- 5時間目 -->
+                <tr>
+                    <td class="period-col">5</td>
+                    <td class="time-col">13:00 - 14:00</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject eng-expr">英語表現</td>
+                </tr>
+
+                <!-- 6時間目 -->
+                <tr>
+                    <td class="period-col">6</td>
+                    <td class="time-col">14:00 - 15:00</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                    <td class="subject eng-expr">英語表現</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject math">数学</td>
+                </tr>
+
+                <!-- 7時間目 -->
+                <tr>
+                    <td class="period-col">7</td>
+                    <td class="time-col">15:00 - 16:00</td>
+                    <td class="subject eng-expr">英語表現</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject eng-read">英語理解</td>
+                </tr>
+
+                <!-- 8時間目 -->
+                <tr>
+                    <td class="period-col">8</td>
+                    <td class="time-col">16:00 - 17:00</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                    <td class="subject eng-expr">英語表現</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                </tr>
+
+                <!-- 9時間目 -->
+                <tr>
+                    <td class="period-col">9</td>
+                    <td class="time-col">17:00 - 18:00</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                    <td class="subject info-prac">情報リテラシ演習</td>
+                    <td class="subject eng-expr">英語表現</td>
+                </tr>
+
+                <!-- 10時間目 -->
+                <tr>
+                    <td class="period-col">10</td>
+                    <td class="time-col">18:00 - 19:00</td>
+                    <td class="subject math">数学</td>
+                    <td class="subject info-lit">情報リテラシ</td>
+                    <td class="subject jp-expr">日本語表現</td>
+                    <td class="subject eng-read">英語理解</td>
+                    <td class="subject data-sci">数理データサイエンス</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+
+</body>
+</html>
